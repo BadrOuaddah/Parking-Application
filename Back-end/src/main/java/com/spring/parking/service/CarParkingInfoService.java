@@ -39,4 +39,6 @@ public class CarParkingInfoService {
         carParkingInfoDao.delete(carParkingInfoDao.findByVehicleRegistration(vehicleRegistration));
     }
 
+    //TEST
+
 }
