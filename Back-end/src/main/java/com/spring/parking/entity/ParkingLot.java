@@ -1,7 +1,8 @@
 package com.spring.parking.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name="parking_lot")

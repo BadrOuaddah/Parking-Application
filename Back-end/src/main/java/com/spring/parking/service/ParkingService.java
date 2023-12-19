@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class ParkingService {
+public class ParkingService implements IParkingService {
     private ParkingDao parkingDao;
     private ParkingMapper parkingMapper;
     @Autowired
@@ -22,8 +23,22 @@ public class ParkingService {
         this.parkingMapper = parkingMapper;
     }
 
-    public List<Parking> getParking(){
-        return parkingDao.findAll();
+    public List<ParkingDto> getParking(){
+        // les services doivent retourné des DTO pas des entity
+        // les entité ne doivent pas sortir du scope des @Transactional
+        // le service est transactional mais pas le controller, donc c'est ici qu'on doit mappé
+        List<Parking> entities = parkingDao.findAll();
+        if (entities == null) {
+            return null;
+        } else {
+            return parkingMapper.toParkingDto(entities);
+        }
+    }
+
+    public List<ParkingDto> getParking_mapper_boucle(){
+        List<Parking> list = parkingDao.findAll();
+        // cette méthode je l'ai ajouté pour
+        return list.stream().map(parkingMapper::toParkingDto).collect(Collectors.toList());
     }
 
     public ParkingDto parkingInit(ParkingDto parkingDto) {
