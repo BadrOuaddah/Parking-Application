@@ -1,7 +1,6 @@
 package com.spring.parking.controller;
 
 import com.spring.parking.dto.ParkingDto;
-import com.spring.parking.entity.Parking;
 import com.spring.parking.service.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ public class ParkingController {
     private ParkingService parkingService;
 
     @GetMapping
-    public List<Parking> getParking(){
+    public List<ParkingDto> getParking(){
         return parkingService.getParking();
     }
 

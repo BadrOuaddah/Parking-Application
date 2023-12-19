@@ -22,8 +22,13 @@ public class ParkingService {
         this.parkingMapper = parkingMapper;
     }
 
-    public List<Parking> getParking(){
-        return parkingDao.findAll();
+    public List<ParkingDto> getParking(){
+        List<Parking> entities = parkingDao.findAll();
+        if (entities == null) {
+            return null;
+        } else {
+            return parkingMapper.toParkingDtos(entities);
+        }
     }
 
     public ParkingDto parkingInit(ParkingDto parkingDto) {

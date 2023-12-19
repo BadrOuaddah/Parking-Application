@@ -33,8 +33,13 @@ public class ParkingLotService {
         this.carParkingInfoMapper = carParkingInfoMapper;
     }
 
-    public List<ParkingLot> getParkingLots() {
-        return parkingLotDao.findAll();
+    public List<ParkingLotDto> getParkingLots() {
+        List<ParkingLot> entities = parkingLotDao.findAll();
+        if (entities == null) {
+            return null;
+        } else {
+            return parkingLotMapper.toParkingLotDtos(entities);
+        }
     }
 
     public ParkingLotDto getParkingLot(Long parkingLotNumber){

@@ -2,7 +2,6 @@ package com.spring.parking.controller;
 
 import com.spring.parking.dto.CarParkingInfoDto;
 import com.spring.parking.dto.ParkingLotDto;
-import com.spring.parking.entity.ParkingLot;
 import com.spring.parking.model.UnparkCarRequest;
 import com.spring.parking.service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ public class ParkingLotsController {
     private ParkingLotService parkingLotService;
 
     @GetMapping("/parkingLots")
-    public List<ParkingLot> getParkingLots(){
+    public List<ParkingLotDto> getParkingLots(){
         return parkingLotService.getParkingLots();
     }
 

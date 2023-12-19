@@ -15,7 +15,7 @@ public interface ParkingLotMapper {
     @Mapping(source = "carParkingInfo",target = "carParkingInfoDto")
     ParkingLotDto toParkingLotDto(ParkingLot parkingLot);
 
-    List<ParkingLot> toParkingLotList(List<ParkingLotDto> parkingLotDtos);
-    List<ParkingLotDto> toParkingLotDtoList(List<ParkingLot> parkingLots);
+    List<ParkingLot> toParkingLotEntites(List<ParkingLotDto> parkingLotDtos);
+    List<ParkingLotDto> toParkingLotDtos(List<ParkingLot> parkingLots);
 
 }
