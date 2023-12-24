@@ -7,7 +7,7 @@ import java.util.List;
 public interface IParkingService {
     List<ParkingDto> getParking();
 
-//    List<ParkingDto> getParking_mapper_boucle();
+    List<ParkingDto> getParking_mapper_boucle();
 
     ParkingDto parkingInit(ParkingDto parkingDto);
 }

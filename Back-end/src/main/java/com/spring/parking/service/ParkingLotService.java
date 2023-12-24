@@ -8,6 +8,8 @@ import com.spring.parking.dao.ParkingLotDao;
 import com.spring.parking.mapper.CarParkingInfoMapper;
 import com.spring.parking.mapper.ParkingLotMapper;
 import com.spring.parking.model.UnparkCarRequest;
+import com.spring.parking.serviceInterface.ICarParkingInfoService;
+import com.spring.parking.serviceInterface.IParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +19,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ParkingLotService {
+public class ParkingLotService implements IParkingLotService {
 
     private final ParkingLotMapper parkingLotMapper;
     private final CarParkingInfoMapper carParkingInfoMapper;
