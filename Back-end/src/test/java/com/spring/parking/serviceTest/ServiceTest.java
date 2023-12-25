@@ -1,57 +1,56 @@
 package com.spring.parking.serviceTest;
 
-import com.spring.parking.dao.CarParkingInfoDao;
-import com.spring.parking.dto.CarParkingInfoDto;
-import com.spring.parking.entity.CarParkingInfo;
-import com.spring.parking.mapper.CarParkingInfoMapper;
-import com.spring.parking.service.ParkingLotService;
+import com.spring.parking.dao.ParkingDao;
+import com.spring.parking.dto.ParkingDto;
+import com.spring.parking.entity.Parking;
+import com.spring.parking.mapper.ParkingMapper;
+import com.spring.parking.service.ParkingService;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.mockito.Mockito.when;
+import java.util.Arrays;
+import java.util.List;
+
 
 @ExtendWith(MockitoExtension.class)
+@RunWith(SpringRunner.class)
 public class ServiceTest {
-
-
-    @InjectMocks
-    ParkingLotService parkingLotService;
-
-    @InjectMocks
-    CarParkingInfoMapper carParkingInfoMapper;
-
-
     @Mock
-    private CarParkingInfo carParkingInfo;
-
+    private ParkingDao parkingDao;
     @Mock
-    private CarParkingInfoDao carParkingInfoDao;
+    private ParkingMapper parkingMapper;
+    @InjectMocks
+    private ParkingService sut;
 
-
-    @Test
-    public void testCarService(){
-        CarParkingInfo carParkingInfo = Mockito.mock(CarParkingInfo.class);
-
-        CarParkingInfoDto carParkingInfoDto = CarParkingInfoDto.builder()
-                .vehicleRegistration(1L)
-                .brand("TestBrand")
-                .color("TestColor")
-                .type("TestType")
-                .totalPrice(10)
-                .build();
-
-        when(carParkingInfoMapper.toCarParkingInfoEntity(carParkingInfoDto)).thenReturn(carParkingInfo);
-        when(carParkingInfoDao.getReferenceById(carParkingInfo.getVehicleRegistration())).thenReturn(carParkingInfo);
-        parkingLotService.parkingCar(1L, carParkingInfoDto);
-
-        assertNotNull(carParkingInfo.getVehicleRegistration());
+    @Before
+    public void setUp(){
+        sut = new ParkingService(parkingDao, parkingMapper);
     }
 
+    @Test
+    public void getParkingTest(){
+        List<Parking> parkings = Arrays.asList(new Parking(), new Parking());
+        List<ParkingDto> parkingsDto = Arrays.asList(new ParkingDto(), new ParkingDto());
 
+        Mockito.when(parkingDao.findAll()).thenReturn(parkings);
+
+        Mockito.when(parkingMapper.toParkingDtos(parkings)).thenReturn(parkingsDto);
+
+        List<ParkingDto> actualResult = sut.getParking();
+
+        Assert.assertNull(actualResult);
+
+        Mockito.verify(parkingDao, Mockito.times(1)).findAll();
+        Mockito.verify(parkingMapper, Mockito.times(1)).toParkingDtos(Mockito.any(List.class));
+
+    }
 
 }
