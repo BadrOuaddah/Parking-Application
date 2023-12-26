@@ -8,6 +8,7 @@ import com.spring.parking.dto.ParkingLotDto;
 import com.spring.parking.entity.Parking;
 import com.spring.parking.mapper.ParkingMapper;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,9 +26,30 @@ public class DaoTest {
     @Autowired
     private ParkingMapper parkingMapper;
 
+    @Test
+    public void testSaveParking(){
+        List<ParkingLotDto> parkingLotDtoList = new ArrayList<>();
+        ParkingLotDto parkingLotDto1 = new ParkingLotDto();
+        ParkingLotDto parkingLotDto2 = new ParkingLotDto();
+        parkingLotDtoList.add(parkingLotDto1);
+        parkingLotDtoList.add(parkingLotDto2);
+
+        ParkingDto parkingDto = ParkingDto.builder()
+                .id(1)
+                .openTime("8:00 AM")
+                .closeTime("11:00 PM")
+                .parkingLots(parkingLotDtoList)
+                .build();
+
+        //TODO : Cannot invoke toParkingEntity() because parkingMapper is null
+        Parking parkingEntity = parkingMapper.toParkingEntity(parkingDto);
+        Parking savedParking = parkingDao.save(parkingEntity);
+        Assertions.assertThat(savedParking).isNotNull();
+
+    }
 
     @Test
-    public void findAllTest(){
+    public void testFindAllParking(){
         List<ParkingLotDto> parkingLotDtoList = new ArrayList<>();
 
         ParkingLotDto parkingLotDto1 = new ParkingLotDto();
