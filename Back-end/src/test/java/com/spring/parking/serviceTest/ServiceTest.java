@@ -35,6 +35,7 @@ public class ServiceTest {
         sut = new ParkingService(parkingDao, parkingMapper);
     }
 
+    // TODO : make unit testing in service layer
     @Test
     public void getParkingTest(){
         List<Parking> parkings = Arrays.asList(new Parking(), new Parking());
