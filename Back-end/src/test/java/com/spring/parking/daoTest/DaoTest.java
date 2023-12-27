@@ -8,13 +8,17 @@ import com.spring.parking.dto.ParkingLotDto;
 import com.spring.parking.entity.Parking;
 import com.spring.parking.mapper.ParkingMapper;
 import org.assertj.core.api.Assertions;
-import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class DaoTest {
 
     @Autowired
@@ -80,6 +84,23 @@ public class DaoTest {
         List<Parking> parkingList = parkingDao.findAll();
         Assertions.assertThat(parkingList).isNotNull();
         Assertions.assertThat(parkingList.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void FindByIdReturnParking(){
+        ParkingDto parkingDto = ParkingDto.builder()
+                .id(1)
+                .openTime("8:00 AM")
+                .closeTime("11:00 PM")
+                .build();
+
+        Parking parkingEntity = parkingMapper.toParkingEntity(parkingDto);
+
+       parkingDao.save(parkingEntity);
+
+        Parking parkingId = parkingDao.findById(parkingEntity.getId()).get();
+
+        Assertions.assertThat(parkingId).isNotNull();
     }
 
 }
