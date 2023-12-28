@@ -1,13 +1,8 @@
 package com.spring.parking.daoTest;
 
-import com.spring.parking.dao.CarParkingInfoDao;
 import com.spring.parking.dao.ParkingDao;
-import com.spring.parking.dao.ParkingLotDao;
 import com.spring.parking.dto.ParkingDto;
-import com.spring.parking.dto.ParkingLotDto;
 import com.spring.parking.entity.Parking;
-import com.spring.parking.entity.ParkingLot;
-import com.spring.parking.mapper.ParkingLotMapper;
 import com.spring.parking.mapper.ParkingMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -16,11 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
-import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DaoTest {
+public class ParkingDaoTest {
 
 //    @Mock
 //    private Parking parkingMock;
@@ -30,15 +24,10 @@ public class DaoTest {
 
     @Autowired
     private ParkingDao parkingDao;
-    @Autowired
-    private ParkingLotDao parkingLotDao;
-    @Autowired
-    private CarParkingInfoDao carParkingInfoDao;
+
     @Autowired
     private ParkingMapper parkingMapper;
 
-    @Autowired
-    private ParkingLotMapper parkingLotMapper;
 
     @Test
     public void testSaveParking(){
@@ -94,21 +83,5 @@ public class DaoTest {
         Parking parkingId = parkingDao.findById(parkingEntity.getId()).get();
 
         Assertions.assertThat(parkingId).isNotNull();
-    }
-
-    @Test
-    public void testDeleteParkingLot(){
-        ParkingLotDto parkingLotDto = ParkingLotDto.builder()
-                .parkingLotNumber(1)
-                .price(10.00)
-                .build();
-        ParkingLot parkingLotEntity = parkingLotMapper.toParkingLotEntity(parkingLotDto);
-
-        parkingLotDao.save(parkingLotEntity);
-
-        parkingLotDao.deleteById(parkingLotEntity.getParkingLotNumber());
-        Optional<ParkingLot> parkingLotDeleted = parkingLotDao.findById(parkingLotEntity.getParkingLotNumber());
-
-        Assertions.assertThat(parkingLotDeleted).isEmpty();
     }
 }
