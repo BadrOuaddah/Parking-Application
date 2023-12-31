@@ -59,7 +59,7 @@ public class ControllerTest {
 
     @Test
     public void shouldCreateNewCar() throws Exception {
-
+        // TODO : Cannot invoke "org.springframework.test.web.servlet.MockMvc.perform(org.springframework.test.web.servlet.RequestBuilder)" because "this.mockMvc" is null
 
         objectMapper.registerModule(new JavaTimeModule());
         String requestJson = objectMapper.writeValueAsString(carParkingInfoDto);

@@ -39,17 +39,11 @@ public class ServiceTest {
     private ParkingMapper parkingMapper;
     @InjectMocks
     private ParkingService sut;
-
     @InjectMocks
     ParkingLotService parkingLotService;
-
-
     private CarParkingInfoMapper carParkingInfoMapper;
-
-
     @Mock
     private CarParkingInfoDto carParkingInfoDto;
-
     @Mock
     private CarParkingInfoDao carParkingInfoDao;
 
@@ -60,6 +54,7 @@ public class ServiceTest {
 
     @Test
     public void getParkingTest(){
+        // TODO : 'java.lang.AutoCloseable org.mockito.MockitoAnnotations.openMocks(java.lang.Object)'
         List<Parking> parkings = Arrays.asList(new Parking(), new Parking());
         List<ParkingDto> parkingsDto = Arrays.asList(new ParkingDto(), new ParkingDto());
 
@@ -78,6 +73,7 @@ public class ServiceTest {
 
     @Test
     public void testCarService(){
+        // TODO : 'java.lang.AutoCloseable org.mockito.MockitoAnnotations.openMocks(java.lang.Object)'
         CarParkingInfo carParkingInfo = Mockito.mock(CarParkingInfo.class);
 
         CarParkingInfoDto carParkingInfoDto = CarParkingInfoDto.builder()

@@ -16,11 +16,8 @@ import java.util.List;
 @SpringBootTest
 public class ParkingDaoTest {
 
-//    @Mock
-//    private Parking parkingMock;
-//
-//    @Mock
-//    private CarParkingInfoDto carParkingInfoDto;
+    // TODO : Add Mock objects with using Mockito
+
 
     @Autowired
     private ParkingDao parkingDao;

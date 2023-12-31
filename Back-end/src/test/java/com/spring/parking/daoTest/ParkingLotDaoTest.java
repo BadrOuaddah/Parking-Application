@@ -23,11 +23,30 @@ public class ParkingLotDaoTest {
     private ParkingLotMapper parkingLotMapper;
 
     @Test
+    public void testToSaveParkingLot(){
+        // TODO : not-null property references a null or transient value : com.spring.parking.entity.ParkingLot.parking
+        ParkingLotDto parkingLotDto = ParkingLotDto.builder()
+                .parkingLotNumber(1)
+                .carParkingInfoDto(null)
+                .parking(null)
+                .price(10.00)
+                .build();
+        ParkingLot parkingLotEntity = parkingLotMapper.toParkingLotEntity(parkingLotDto);
+
+        ParkingLot parkingLotSaved = parkingLotDao.save(parkingLotEntity);
+
+        Assertions.assertThat(parkingLotSaved).isNotNull();
+    }
+
+    @Test
     public void testDeleteParkingLot(){
+        // TODO : not-null property references a null or transient value : com.spring.parking.entity.ParkingLot.parking
         ParkingLotDto parkingLotDto = ParkingLotDto.builder()
                 .parkingLotNumber(1)
                 .price(10.00)
                 .build();
+
+        // ! Fix error of toParkingLotEntity method
         ParkingLot parkingLotEntity = parkingLotMapper.toParkingLotEntity(parkingLotDto);
 
         parkingLotDao.save(parkingLotEntity);
