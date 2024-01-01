@@ -2,7 +2,9 @@ package com.spring.parking.serviceTest;
 
 import com.spring.parking.dao.ParkingDao;
 import com.spring.parking.dto.ParkingDto;
+import com.spring.parking.dto.ParkingLotDto;
 import com.spring.parking.entity.Parking;
+import com.spring.parking.entity.ParkingLot;
 import com.spring.parking.mapper.ParkingMapper;
 import com.spring.parking.service.ParkingService;
 import org.junit.jupiter.api.Test;
@@ -44,11 +46,18 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void getParking_mapper_boucle(){
+    public void getParking_mapper_boucleTest(){
         List<ParkingDto> result = sut.getParking_mapper_boucle();
         Assertions.assertThat(result).isNotNull();
     }
 
     @Test
-    public void parkingInit(){}
+    public void parkingInitTest(){
+        // TODO : java.lang.AssertionError: Expecting actual not to be null
+        Parking parking = new Parking();
+        Parking parkingSaved = parkingDao.save(parking);
+
+        Assertions.assertThat(parkingSaved).isNotNull();
+    }
+
 }

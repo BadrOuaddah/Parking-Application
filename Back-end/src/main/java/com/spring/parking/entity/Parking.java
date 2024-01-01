@@ -9,7 +9,6 @@ public class Parking {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private long id;
-
     private String openTime;
     private String closeTime;
 
