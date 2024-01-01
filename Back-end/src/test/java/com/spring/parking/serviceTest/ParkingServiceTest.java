@@ -21,7 +21,7 @@ import org.assertj.core.api.Assertions;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class ServiceTest {
+public class ParkingServiceTest {
     @Mock
     private ParkingDao parkingDao;
     @Mock
@@ -42,4 +42,13 @@ public class ServiceTest {
         Mockito.verify(parkingDao, Mockito.times(1)).findAll();
         Mockito.verify(parkingMapper, Mockito.times(1)).toParkingDtos(Mockito.any(List.class));
     }
+
+    @Test
+    public void getParking_mapper_boucle(){
+        List<ParkingDto> result = sut.getParking_mapper_boucle();
+        Assertions.assertThat(result).isNotNull();
+    }
+
+    @Test
+    public void parkingInit(){}
 }
