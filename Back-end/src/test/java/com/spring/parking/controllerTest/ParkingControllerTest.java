@@ -1,5 +1,7 @@
 package com.spring.parking.controllerTest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.parking.controller.ParkingController;
 import com.spring.parking.dto.ParkingDto;
 import com.spring.parking.dto.ParkingLotDto;
@@ -37,7 +39,10 @@ public class ParkingControllerTest {
     @Mock
     private com.spring.parking.entity.Parking parking;
 
+
     private ParkingDto parkingDto;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     public void init() {
@@ -54,5 +59,14 @@ public class ParkingControllerTest {
     public void testGetParkingThatReturnParkingList() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/parking").accept(MediaType.APPLICATION_JSON))
                 .andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    public void createParkingInitThatReturnCreated() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/parking/init")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(parkingDto)).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
     }
 }
