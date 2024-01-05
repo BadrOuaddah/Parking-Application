@@ -67,6 +67,6 @@ public class ParkingControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/parking/init")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(parkingDto)).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
     }
 }
