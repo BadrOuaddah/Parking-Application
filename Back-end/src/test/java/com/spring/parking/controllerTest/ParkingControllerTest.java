@@ -1,11 +1,9 @@
 package com.spring.parking.controllerTest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.parking.controller.ParkingController;
 import com.spring.parking.dto.ParkingDto;
 import com.spring.parking.dto.ParkingLotDto;
-import com.spring.parking.entity.Parking;
 import com.spring.parking.service.ParkingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
