@@ -2,6 +2,7 @@ package com.spring.parking.service;
 
 import com.spring.parking.entity.CarParkingInfo;
 import com.spring.parking.dao.CarParkingInfoDao;
+import com.spring.parking.serviceInterface.ICarParkingInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class CarParkingInfoService {
+public class CarParkingInfoService implements ICarParkingInfoService {
 
     private CarParkingInfoDao carParkingInfoDao;
 
