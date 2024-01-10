@@ -18,7 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.List;
+import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -49,7 +49,7 @@ public class ParkingControllerTest {
                 .id(1L)
                 .openTime("9:00 AM")
                 .closeTime("12:00 PM")
-                .parkingLots(List.of(parkingLotDto))
+                .parkingLots(Arrays.asList(parkingLotDto))
                 .build();
     }
 

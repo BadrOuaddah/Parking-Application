@@ -45,7 +45,7 @@ public class CarParkingInfoServiceTest {
                 .build();
 
         Mockito.when(carParkingInfoMapper.toCarParkingInfoEntity(carParkingInfoDto)).thenReturn(carParkingInfo);
-        Mockito.when(carParkingInfoDao.getReferenceById(carParkingInfo.getVehicleRegistration())).thenReturn(carParkingInfo);
+        Mockito.when(carParkingInfoDao.findByVehicleRegistration(carParkingInfo.getVehicleRegistration())).thenReturn(carParkingInfo);
         parkingLotService.parkingCar(1L, carParkingInfoDto);
 
         assertNotNull(carParkingInfo.getVehicleRegistration());
