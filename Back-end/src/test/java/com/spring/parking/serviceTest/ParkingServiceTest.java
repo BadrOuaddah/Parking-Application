@@ -62,31 +62,28 @@ public class ParkingServiceTest {
         assertNull(getParking);
     }
 
-//    @Test
-//    public void getParking_mapper_boucle_test() {
-//        // préparation des jeux de données
-//        Parking parking1 = new Parking();
-//        Parking parking2 = new Parking();
-//        ParkingDto parkingDto1 = new ParkingDto();
-//        ParkingDto parkingDto2 = new ParkingDto();
-//
-//        List<Parking> parkings = Arrays.asList(parking1, parking2);
-//
-//        Mockito.when(parkingDao.findAll()).thenReturn(parkings); // mock des appels dans la méthode testé
-//
-//        Mockito.when(parkingMapper.toParkingDto(parking1)).thenReturn(parkingDto1); // mock des appels dans la méthode testé
-//        Mockito.when(parkingMapper.toParkingDto(parking2)).thenReturn(parkingDto2); // mock des appels dans la méthode testé
-//
-//        List<ParkingDto> actualResult = sut.getParking_mapper_boucle(); // appel de la méthode testé
-//
-//        // assertion sur les données retourné
-//        Assert.assertNotNull(actualResult);
-//        Assert.assertEquals(2, actualResult.size());
-//
-//        // assertion sur les appels executé
-//        Mockito.verify(parkingDao, Mockito.times(1)).findAll();
-//        Mockito.verify(parkingMapper, Mockito.times(2)).toParkingDto(Mockito.any(Parking.class));
-//    }
+    @Test
+    public void getParking_mapper_boucle_test() {
+        Parking parking1 = new Parking();
+        Parking parking2 = new Parking();
+        ParkingDto parkingDto1 = new ParkingDto();
+        ParkingDto parkingDto2 = new ParkingDto();
+
+        List<Parking> parkings = Arrays.asList(parking1, parking2);
+
+        when(parkingDao.findAll()).thenReturn(parkings);
+
+        when(parkingMapper.toParkingDto(parking1)).thenReturn(parkingDto1);
+        when(parkingMapper.toParkingDto(parking2)).thenReturn(parkingDto2);
+
+        List<ParkingDto> actualResult = parkingService.getParking_mapper_boucle();
+
+        assertNotNull(actualResult);
+        assertEquals(2, actualResult.size());
+
+        verify(parkingDao, times(1)).findAll();
+        verify(parkingMapper, times(2)).toParkingDto(Mockito.any(Parking.class));
+    }
 
     @Test
     public void parkingInitTest(){
