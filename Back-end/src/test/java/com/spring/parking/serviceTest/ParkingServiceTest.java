@@ -2,9 +2,7 @@ package com.spring.parking.serviceTest;
 
 import com.spring.parking.dao.ParkingDao;
 import com.spring.parking.dto.ParkingDto;
-import com.spring.parking.dto.ParkingLotDto;
 import com.spring.parking.entity.Parking;
-import com.spring.parking.entity.ParkingLot;
 import com.spring.parking.mapper.ParkingMapper;
 import com.spring.parking.service.ParkingService;
 import org.junit.jupiter.api.Test;
@@ -13,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;
@@ -87,31 +84,11 @@ public class ParkingServiceTest {
 
     @Test
     public void parkingInitTest(){
-        Parking parking = new Parking(1,"9:00 AM","12:00 PM");
-        ParkingDto parkingDto = ParkingDto.builder()
-                .id(1)
-                .openTime("9:00 AM")
-                .closeTime("12:00 PM")
-                .build();
-
-        when(parkingMapper.toParkingEntity(parkingDto)).thenReturn(parking);
-        when(parkingMapper.toParkingDto(parking)).thenReturn(parkingDto);
-        parkingDao.save(parking);
-//        when(parkingDao.save(parking)).thenReturn(parkingDto);
-        verify(parkingDao, times(1)).save(parking);
-        verify(parkingMapper, times(1)).toParkingEntity(parkingDto);
-        verify(parkingMapper, times(1)).toParkingDto(parking);
-
-
+        // TODO : Fix this error
+        ParkingDto parkingDto = new ParkingDto();
+        Parking parkingEntity = new Parking();
+        when(parkingMapper.toParkingEntity(parkingDto)).thenReturn(parkingEntity);
+        parkingService.parkingInit(parkingDto);
+        verify(parkingDao, times(1)).save(parkingEntity);
     }
-
-//        public ParkingDto parkingInit(ParkingDto parkingDto) {
-//        Parking parkingEntity = parkingMapper.toParkingEntity(parkingDto);
-//
-//        for (ParkingLot parkingLot : parkingEntity.getParkingLots()) {
-//            parkingLot.setParking(parkingEntity);
-//        }
-//        return parkingMapper.toParkingDto(parkingDao.save(parkingEntity));
-//    }
-
 }
