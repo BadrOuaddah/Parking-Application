@@ -1,6 +1,7 @@
 package com.spring.parking.serviceTest;
 
 import com.spring.parking.dao.ParkingLotDao;
+import com.spring.parking.dto.CarParkingInfoDto;
 import com.spring.parking.dto.ParkingLotDto;
 import com.spring.parking.entity.ParkingLot;
 import com.spring.parking.mapper.CarParkingInfoMapper;
@@ -16,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -54,6 +56,26 @@ public class ParkingLotServiceTest {
         verify(parkingLotDao, times(1)).findAll();
         assertNull(parkingLotService.getParkingLots());
     }
+
+    @Test
+    public void getOneParkingLot(){
+        Long parkingLotNumber = 1L;
+        ParkingLotDto parkingLotDto = new ParkingLotDto();
+        ParkingLot parkingLot = new ParkingLot();
+        when(parkingLotMapper.toParkingLotDto(parkingLot)).thenReturn(parkingLotDto);
+        when(parkingLotDao.findById(1L)).thenReturn(Optional.of(parkingLot));
+        parkingLotService.getParkingLot(parkingLotNumber);
+        verify(parkingLotDao, times(1)).findById(parkingLotNumber);
+        verify(parkingLotMapper, times(1)).toParkingLotDto(parkingLot);
+        assertNotNull(parkingLotService.getParkingLot(parkingLotNumber));
+    }
+
+    public void parkingCarTest(){
+
+
+    }
+
+
 
 
 }
