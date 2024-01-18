@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = CarParkingInfoController.class)
 @ExtendWith(MockitoExtension.class)
-public class ControllerTest {
+public class CarParkingInfoControllerTest {
     // TODO : Refactor Controller Test to CarParkingInfoControllerTest
 
     @MockBean
