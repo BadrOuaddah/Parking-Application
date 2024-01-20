@@ -84,10 +84,11 @@ public class ParkingServiceTest {
 
     @Test
     public void parkingInitTest(){
-        // TODO : Fix this error
+        // TODO : Fix the error : Parking.getParkingLots() is null
         ParkingDto parkingDto = new ParkingDto();
         Parking parkingEntity = new Parking();
         when(parkingMapper.toParkingEntity(parkingDto)).thenReturn(parkingEntity);
+        when(parkingDao.save(parkingEntity)).thenReturn(parkingEntity);
         parkingService.parkingInit(parkingDto);
         verify(parkingDao, times(1)).save(parkingEntity);
     }
