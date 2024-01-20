@@ -3,6 +3,7 @@ package com.spring.parking.serviceTest;
 import com.spring.parking.dao.ParkingLotDao;
 import com.spring.parking.dto.CarParkingInfoDto;
 import com.spring.parking.dto.ParkingLotDto;
+import com.spring.parking.entity.CarParkingInfo;
 import com.spring.parking.entity.ParkingLot;
 import com.spring.parking.mapper.CarParkingInfoMapper;
 import com.spring.parking.mapper.ParkingLotMapper;
@@ -12,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.junit.jupiter.api.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
@@ -70,10 +70,20 @@ public class ParkingLotServiceTest {
         assertNotNull(parkingLotService.getParkingLot(parkingLotNumber));
     }
 
+    @Test
     public void parkingCarTest(){
-
-
+        Long parkingLotNumber = 1L;
+        ParkingLot parkingLot = new ParkingLot();
+        CarParkingInfoDto carParkingInfoDto = new CarParkingInfoDto();
+        CarParkingInfo carParkingInfo = new CarParkingInfo();
+        when(parkingLotDao.findById(1L)).thenReturn(Optional.of(parkingLot));
+        when(carParkingInfoMapper.toCarParkingInfoEntity(carParkingInfoDto)).thenReturn(carParkingInfo);
+        parkingLotService.parkingCar(parkingLotNumber,carParkingInfoDto);
+        verify(parkingLotDao, times(1)).findById(parkingLotNumber);
+        verify(parkingLotDao, times(1)).save(parkingLot);
     }
+
+    //unparkingCar
 
 
 
