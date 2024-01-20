@@ -34,7 +34,18 @@ public class CarParkingInfoServiceTest {
         long vehicleRegistration = 2;
         when(carParkingInfoDao.findById(vehicleRegistration)).thenReturn(null);
         Optional<CarParkingInfo> carParkingInfoOptional = carParkingInfoDao.findById(vehicleRegistration);
+        verify(carParkingInfoDao, times(1)).findById(vehicleRegistration);
         assertNull(carParkingInfoOptional);
 
+    }
+
+    @Test
+    public void updateCarTest(){
+        long vehicleRegistration = 1;
+        CarParkingInfo carParkingInfoUpdated = new CarParkingInfo();
+        when(carParkingInfoDao.findById(vehicleRegistration)).thenReturn(Optional.of(carParkingInfoUpdated));
+        carParkingInfoService.updateCar(vehicleRegistration,carParkingInfoUpdated);
+        verify(carParkingInfoDao, times(1)).findById(vehicleRegistration);
+        verify(carParkingInfoDao, times(1)).save(carParkingInfoUpdated);
     }
 }
