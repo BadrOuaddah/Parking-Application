@@ -1,76 +1,55 @@
-//package com.spring.parking.controllerTest;
-//
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-//import com.spring.parking.controller.CarParkingInfoController;
-//import com.spring.parking.dao.CarParkingInfoDao;
-//import com.spring.parking.dto.CarParkingInfoDto;
-//import com.spring.parking.service.CarParkingInfoService;
-//import org.junit.Test;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.boot.test.mock.mockito.MockBean;
-//import org.springframework.http.MediaType;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-//
-//import java.time.LocalDateTime;
-//
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-//
-//
-//
-//@WebMvcTest(controllers = CarParkingInfoController.class)
-//@ExtendWith(MockitoExtension.class)
-//public class CarParkingInfoControllerTest {
-//    // TODO : Refactor Controller Test to CarParkingInfoControllerTest
-//
-//    @MockBean
-//    CarParkingInfoDao carParkingInfoDao;
-//
-//    @MockBean
-//    private CarParkingInfoService carParkingInfoService;
-//
-//    @Autowired
-//    private final ObjectMapper objectMapper = new ObjectMapper();
-//    private MockMvc mockMvc;
-//    private CarParkingInfoDto carParkingInfoDto;
-//
-//
-//
-//    @BeforeEach
-//    public void setup() {
-//        mockMvc = MockMvcBuilders.standaloneSetup(new CarParkingInfoController()).build();
-//        carParkingInfoDto = CarParkingInfoDto.builder()
-//                .vehicleRegistration(1)
-//                .brand("Mercedes")
-//                .model("AMG")
-//                .color("Black")
-//                .type("Class A")
-//                .entryTime(LocalDateTime.now())
-//                .totalPrice(10.0)
-//    .build();
-//
-//    }
-//
-//    @Test
-//    public void shouldCreateNewCar() throws Exception {
-//        // TODO : Cannot invoke "org.springframework.test.web.servlet.MockMvc.perform(org.springframework.test.web.servlet.RequestBuilder)" because "this.mockMvc" is null
-//
-//        objectMapper.registerModule(new JavaTimeModule());
-//        String requestJson = objectMapper.writeValueAsString(carParkingInfoDto);
-//
-//
-//        mockMvc.perform(post("/api/v1/parking/parkCar")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestJson))
-//                .andExpect(status().isCreated())
-//                .andDo(print());
-//    }
-//
-//}
+package com.spring.parking.controllerTest;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.parking.controller.CarParkingInfoController;
+import com.spring.parking.entity.CarParkingInfo;
+import com.spring.parking.service.CarParkingInfoService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@ExtendWith(MockitoExtension.class)
+public class CarParkingInfoControllerTest {
+
+    @Mock
+    private CarParkingInfoService carParkingInfoService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
+    private MockMvc mockMvc;
+
+    @InjectMocks
+    private CarParkingInfoController carParkingInfoController;
+
+    @BeforeEach
+    public void init() {
+        mockMvc = MockMvcBuilders.standaloneSetup(carParkingInfoController).build();
+        objectMapper = new ObjectMapper();
+    }
+
+    @Test
+    public void updateCarParkingInfoTest() throws Exception {
+        Long vehicleRegistration = 1L;
+        CarParkingInfo carParkingInfo = new CarParkingInfo();
+        carParkingInfoController.updateCarParkingInfo(vehicleRegistration,carParkingInfo);
+        verify(carParkingInfoService, times(1)).updateCar(vehicleRegistration,carParkingInfo);
+        mockMvc.perform(put("/api/v1/parking/updateCar/{vehicleRegistration}",vehicleRegistration)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(carParkingInfo)))
+                .andExpect(status().isOk());
+    }
+
+}
