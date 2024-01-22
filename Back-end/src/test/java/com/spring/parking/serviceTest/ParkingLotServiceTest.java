@@ -7,8 +7,10 @@ import com.spring.parking.entity.CarParkingInfo;
 import com.spring.parking.entity.ParkingLot;
 import com.spring.parking.mapper.CarParkingInfoMapper;
 import com.spring.parking.mapper.ParkingLotMapper;
+import com.spring.parking.model.UnparkCarRequest;
 import com.spring.parking.service.CarParkingInfoService;
 import com.spring.parking.service.ParkingLotService;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -84,9 +86,17 @@ public class ParkingLotServiceTest {
         verify(parkingLotDao, times(1)).save(parkingLot);
     }
 
-    // TODO : Test this method : unparkingCar()
 
+    @Test
+    public void unparkingCarTest(){
+        // TODO : Test this method : unparkingCar()
+        LocalDateTime start = LocalDateTime.of(2024, 1,22,10, 0,0);
+        LocalDateTime finish = LocalDateTime.of(2024, 1,22,11, 0,0);
+        double price = 2;
+        long durationMinutes = java.time.Duration.between(start, finish).toMinutes();
+        double finalPrice = durationMinutes * price;
+        assertEquals(120.0,finalPrice);
 
-
+    }
 
 }

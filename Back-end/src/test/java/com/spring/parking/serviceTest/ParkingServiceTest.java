@@ -3,6 +3,7 @@ package com.spring.parking.serviceTest;
 import com.spring.parking.dao.ParkingDao;
 import com.spring.parking.dto.ParkingDto;
 import com.spring.parking.entity.Parking;
+import com.spring.parking.entity.ParkingLot;
 import com.spring.parking.mapper.ParkingMapper;
 import com.spring.parking.service.ParkingService;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 
-//@SpringBootTest
+
 @ExtendWith(MockitoExtension.class)
 public class ParkingServiceTest {
     @Mock
@@ -35,21 +37,22 @@ public class ParkingServiceTest {
 
     @Test
     public void getParkingTest(){
-        List<Parking> parkingList = Arrays.asList(
+        List<Parking> expected = Arrays.asList(
                 new Parking(1L,null,null),
                 new Parking(2L,null,null)
         );
-        ParkingDto parkingDtoOne = ParkingDto.builder().build();
-        ParkingDto parkingDtoTwo = ParkingDto.builder().build();
+        ParkingDto parkingDtoOne = ParkingDto.builder().id(1).build();
+        ParkingDto parkingDtoTwo = ParkingDto.builder().id(2).build();
         List<ParkingDto> parkingDtoList = Arrays.asList(
                 parkingDtoOne,
                 parkingDtoTwo
                 );
-        when(parkingDao.findAll()).thenReturn(parkingList);
-        when(parkingMapper.toParkingDtos(parkingList)).thenReturn(parkingDtoList);
-        List<ParkingDto> getParkingList = parkingService.getParking();
-        assertEquals(getParkingList.size(),parkingList.size());
-        assertNotNull(getParkingList);
+        when(parkingDao.findAll()).thenReturn(expected);
+        when(parkingMapper.toParkingDtos(expected)).thenReturn(parkingDtoList);
+        List<ParkingDto> result = parkingService.getParking();
+        for (int i = 0; i < result.size(); i++) {
+            assertEquals(result.get(i).getId(),expected.get(i).getId());
+        }
     }
 
     @Test
@@ -65,11 +68,9 @@ public class ParkingServiceTest {
         Parking parking2 = new Parking();
         ParkingDto parkingDto1 = new ParkingDto();
         ParkingDto parkingDto2 = new ParkingDto();
-
         List<Parking> parkings = Arrays.asList(parking1, parking2);
 
         when(parkingDao.findAll()).thenReturn(parkings);
-
         when(parkingMapper.toParkingDto(parking1)).thenReturn(parkingDto1);
         when(parkingMapper.toParkingDto(parking2)).thenReturn(parkingDto2);
 
@@ -77,18 +78,20 @@ public class ParkingServiceTest {
 
         assertNotNull(actualResult);
         assertEquals(2, actualResult.size());
-
         verify(parkingDao, times(1)).findAll();
         verify(parkingMapper, times(2)).toParkingDto(Mockito.any(Parking.class));
     }
 
     @Test
     public void parkingInitTest(){
-        // TODO : Fix the error : Parking.getParkingLots() is null
         ParkingDto parkingDto = new ParkingDto();
         Parking parkingEntity = new Parking();
+        List<ParkingLot> parkingLotList = new ArrayList<>();
+        parkingEntity.setParkingLots(parkingLotList);
+
         when(parkingMapper.toParkingEntity(parkingDto)).thenReturn(parkingEntity);
         when(parkingDao.save(parkingEntity)).thenReturn(parkingEntity);
+
         parkingService.parkingInit(parkingDto);
         verify(parkingDao, times(1)).save(parkingEntity);
     }

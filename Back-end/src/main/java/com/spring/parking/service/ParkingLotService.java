@@ -49,6 +49,7 @@ public class ParkingLotService implements IParkingLotService {
     }
 
     public CarParkingInfoDto unparkingCar(Long parkingLotNumber, UnparkCarRequest unparkCarRequest){
+        //TODO : Create method or class for making this function testable either by extracting to a new class and mock it or a function
         ParkingLot parkingLot = findParkingLotById(parkingLotNumber);
         CarParkingInfo car = parkingLot.getCarParkingInfo();
         LocalDateTime start = car.getEntryTime();
