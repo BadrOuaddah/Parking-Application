@@ -88,15 +88,12 @@ public class ParkingLotServiceTest {
 
 
     @Test
-    public void unparkingCarTest(){
-        // TODO : Test this method : unparkingCar()
-        LocalDateTime start = LocalDateTime.of(2024, 1,22,10, 0,0);
-        LocalDateTime finish = LocalDateTime.of(2024, 1,22,11, 0,0);
-        double price = 2;
-        long durationMinutes = java.time.Duration.between(start, finish).toMinutes();
-        double finalPrice = durationMinutes * price;
+    public void calculatePricePerMinuteTest(){
+        ParkingLot parkingLot = new ParkingLot(1L,null,null,2.0);
+        CarParkingInfo car = new CarParkingInfo(1L,null,null,null,null,LocalDateTime.of(2024, 1,22,10, 0,0),10.0);
+        UnparkCarRequest carRequest = new UnparkCarRequest(LocalDateTime.of(2024, 1,22,11, 0,0));
+        double finalPrice = parkingLotService.calculatePricePerMinute(parkingLot,car,carRequest);
         assertEquals(120.0,finalPrice);
-
     }
 
 }

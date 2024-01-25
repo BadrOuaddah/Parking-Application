@@ -57,13 +57,14 @@ public class ParkingLotService implements IParkingLotService {
         return carParkingInfoMapper.toCarParkingInfoDto(car);
     }
 
-    public void calculatePricePerMinute(ParkingLot parkingLot, CarParkingInfo car, UnparkCarRequest unparkCarRequest){
+    public double calculatePricePerMinute(ParkingLot parkingLot, CarParkingInfo car, UnparkCarRequest unparkCarRequest){
         LocalDateTime start = car.getEntryTime();
         LocalDateTime finish = unparkCarRequest.getFinishTime();
         long durationMinutes = java.time.Duration.between(start, finish).toMinutes();
         double finalPrice = durationMinutes * parkingLot.getPrice();
         car.setTotalPrice(finalPrice);
         parkingLot.setCarParkingInfo(null);
+        return finalPrice;
     }
 
     public ParkingLot findParkingLotById(Long parkingLotId){
