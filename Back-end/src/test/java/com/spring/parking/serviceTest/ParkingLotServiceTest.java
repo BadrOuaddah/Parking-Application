@@ -1,5 +1,6 @@
 package com.spring.parking.serviceTest;
 
+import com.spring.parking.dao.CarParkingInfoDao;
 import com.spring.parking.dao.ParkingLotDao;
 import com.spring.parking.dto.CarParkingInfoDto;
 import com.spring.parking.dto.ParkingLotDto;
@@ -94,6 +95,11 @@ public class ParkingLotServiceTest {
         UnparkCarRequest carRequest = new UnparkCarRequest(LocalDateTime.of(2024, 1,22,11, 0,0));
         double finalPrice = parkingLotService.calculatePricePerMinute(parkingLot,car,carRequest);
         assertEquals(120.0,finalPrice);
+    }
+
+    @Test
+    public void unparkingCarTest(){
+        // TODO : Test unparkingCar
     }
 
 }
