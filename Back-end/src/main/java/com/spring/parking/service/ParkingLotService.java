@@ -49,18 +49,21 @@ public class ParkingLotService implements IParkingLotService {
     }
 
     public CarParkingInfoDto unparkingCar(Long parkingLotNumber, UnparkCarRequest unparkCarRequest){
-        //TODO : Create method or class for making this function testable either by extracting to a new class and mock it or a function
         ParkingLot parkingLot = findParkingLotById(parkingLotNumber);
         CarParkingInfo car = parkingLot.getCarParkingInfo();
+        calculatePricePerMinute(parkingLot,car,unparkCarRequest);
+        carParkingInfoService.deleteCar(car);
+        parkingLotDao.save(parkingLot);
+        return carParkingInfoMapper.toCarParkingInfoDto(car);
+    }
+
+    public void calculatePricePerMinute(ParkingLot parkingLot, CarParkingInfo car, UnparkCarRequest unparkCarRequest){
         LocalDateTime start = car.getEntryTime();
         LocalDateTime finish = unparkCarRequest.getFinishTime();
         long durationMinutes = java.time.Duration.between(start, finish).toMinutes();
         double finalPrice = durationMinutes * parkingLot.getPrice();
         car.setTotalPrice(finalPrice);
         parkingLot.setCarParkingInfo(null);
-        carParkingInfoService.deleteCar(car);
-        parkingLotDao.save(parkingLot);
-        return carParkingInfoMapper.toCarParkingInfoDto(car);
     }
 
     public ParkingLot findParkingLotById(Long parkingLotId){
