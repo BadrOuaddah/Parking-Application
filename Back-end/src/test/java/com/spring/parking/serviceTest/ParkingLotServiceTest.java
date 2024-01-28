@@ -1,6 +1,5 @@
 package com.spring.parking.serviceTest;
 
-import com.spring.parking.dao.CarParkingInfoDao;
 import com.spring.parking.dao.ParkingLotDao;
 import com.spring.parking.dto.CarParkingInfoDto;
 import com.spring.parking.dto.ParkingLotDto;
@@ -11,7 +10,6 @@ import com.spring.parking.mapper.ParkingLotMapper;
 import com.spring.parking.model.UnparkCarRequest;
 import com.spring.parking.service.CarParkingInfoService;
 import com.spring.parking.service.ParkingLotService;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
