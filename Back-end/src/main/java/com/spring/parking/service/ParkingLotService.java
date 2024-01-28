@@ -7,6 +7,7 @@ import com.spring.parking.entity.ParkingLot;
 import com.spring.parking.dao.ParkingLotDao;
 import com.spring.parking.mapper.CarParkingInfoMapper;
 import com.spring.parking.mapper.ParkingLotMapper;
+import com.spring.parking.model.ParkingPriceCalculator;
 import com.spring.parking.model.UnparkCarRequest;
 import com.spring.parking.serviceInterface.ICarParkingInfoService;
 import com.spring.parking.serviceInterface.IParkingLotService;
@@ -24,15 +25,16 @@ public class ParkingLotService implements IParkingLotService {
     private final ParkingLotMapper parkingLotMapper;
     private final CarParkingInfoMapper carParkingInfoMapper;
     private ParkingLotDao parkingLotDao;
-
+    private ParkingPriceCalculator parkingPriceCalculator;
     private CarParkingInfoService carParkingInfoService;
 
     @Autowired
-    public ParkingLotService(ParkingLotDao parkingLotDao, CarParkingInfoService carParkingInfoService, ParkingLotMapper parkingLotMapper, CarParkingInfoMapper carParkingInfoMapper) {
+    public ParkingLotService(ParkingLotDao parkingLotDao, CarParkingInfoService carParkingInfoService, ParkingLotMapper parkingLotMapper, CarParkingInfoMapper carParkingInfoMapper, ParkingPriceCalculator parkingPriceCalculator) {
         this.parkingLotDao = parkingLotDao;
         this.carParkingInfoService = carParkingInfoService;
         this.parkingLotMapper = parkingLotMapper;
         this.carParkingInfoMapper = carParkingInfoMapper;
+        this.parkingPriceCalculator = parkingPriceCalculator;
     }
 
     public List<ParkingLotDto> getParkingLots() {
@@ -51,20 +53,11 @@ public class ParkingLotService implements IParkingLotService {
     public CarParkingInfoDto unparkingCar(Long parkingLotNumber, UnparkCarRequest unparkCarRequest){
         ParkingLot parkingLot = findParkingLotById(parkingLotNumber);
         CarParkingInfo car = parkingLot.getCarParkingInfo();
-        calculatePricePerMinute(parkingLot,car,unparkCarRequest);
+        double price = parkingPriceCalculator.calculatePricePerMinute(parkingLot, car, unparkCarRequest);
+        car.setTotalPrice(price);
         carParkingInfoService.deleteCar(car);
         parkingLotDao.save(parkingLot);
         return carParkingInfoMapper.toCarParkingInfoDto(car);
-    }
-
-    public double calculatePricePerMinute(ParkingLot parkingLot, CarParkingInfo car, UnparkCarRequest unparkCarRequest){
-        LocalDateTime start = car.getEntryTime();
-        LocalDateTime finish = unparkCarRequest.getFinishTime();
-        long durationMinutes = java.time.Duration.between(start, finish).toMinutes();
-        double finalPrice = durationMinutes * parkingLot.getPrice();
-        car.setTotalPrice(finalPrice);
-        parkingLot.setCarParkingInfo(null);
-        return finalPrice;
     }
 
     public ParkingLot findParkingLotById(Long parkingLotId){

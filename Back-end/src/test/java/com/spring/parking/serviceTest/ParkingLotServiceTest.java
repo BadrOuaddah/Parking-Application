@@ -85,16 +85,6 @@ public class ParkingLotServiceTest {
         verify(parkingLotDao, times(1)).save(parkingLot);
     }
 
-
-    @Test
-    public void calculatePricePerMinuteTest(){
-        ParkingLot parkingLot = new ParkingLot(1L,null,null,2.0);
-        CarParkingInfo car = new CarParkingInfo(1L,null,null,null,null,LocalDateTime.of(2024, 1,22,10, 0,0),10.0);
-        UnparkCarRequest carRequest = new UnparkCarRequest(LocalDateTime.of(2024, 1,22,11, 0,0));
-        double finalPrice = parkingLotService.calculatePricePerMinute(parkingLot,car,carRequest);
-        assertEquals(120.0,finalPrice);
-    }
-
     @Test
     public void unparkingCarTest(){
         // TODO : Test unparkingCar
