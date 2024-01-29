@@ -7,16 +7,15 @@ import com.spring.parking.entity.CarParkingInfo;
 import com.spring.parking.entity.ParkingLot;
 import com.spring.parking.mapper.CarParkingInfoMapper;
 import com.spring.parking.mapper.ParkingLotMapper;
-import com.spring.parking.model.UnparkCarRequest;
-import com.spring.parking.service.CarParkingInfoService;
 import com.spring.parking.service.ParkingLotService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -32,12 +31,15 @@ public class ParkingLotServiceTest {
     @Mock
     private ParkingLotMapper parkingLotMapper;
     @Mock
-    private CarParkingInfoService carParkingInfoService;
-    @Mock
     private CarParkingInfoMapper carParkingInfoMapper;
 
     @InjectMocks
     private ParkingLotService parkingLotService;
+
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void getParkingLotsTest(){

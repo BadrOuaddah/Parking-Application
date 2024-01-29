@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 public class UnparkCarRequest {
     private LocalDateTime finishTime;
 
+    public UnparkCarRequest() {
+    }
+
     @JsonCreator
     public UnparkCarRequest(@JsonProperty("finishTime") LocalDateTime finishTime) {
         this.finishTime = finishTime;
