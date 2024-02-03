@@ -7,6 +7,9 @@ import com.spring.parking.entity.CarParkingInfo;
 import com.spring.parking.entity.ParkingLot;
 import com.spring.parking.mapper.CarParkingInfoMapper;
 import com.spring.parking.mapper.ParkingLotMapper;
+import com.spring.parking.model.ParkingPriceCalculator;
+import com.spring.parking.model.UnparkCarRequest;
+import com.spring.parking.service.CarParkingInfoService;
 import com.spring.parking.service.ParkingLotService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +35,12 @@ public class ParkingLotServiceTest {
     private ParkingLotMapper parkingLotMapper;
     @Mock
     private CarParkingInfoMapper carParkingInfoMapper;
+
+    @Mock
+    private ParkingPriceCalculator parkingPriceCalculator;
+
+    @Mock
+    private CarParkingInfoService carParkingInfoService;
 
     @InjectMocks
     private ParkingLotService parkingLotService;
@@ -89,7 +98,18 @@ public class ParkingLotServiceTest {
 
     @Test
     public void unparkingCarTest(){
-        // TODO : Test unparkingCar
+        Long parkingLotNumber = 1L;
+        UnparkCarRequest unparkCarRequest = new UnparkCarRequest();
+        CarParkingInfo car = new CarParkingInfo();
+        CarParkingInfoDto carDto = new CarParkingInfoDto();
+        ParkingLot parkingLot = new ParkingLot(parkingLotNumber,car,null,0.0);
+        when(parkingLotDao.findById(1L)).thenReturn(Optional.of(parkingLot));
+        when(parkingPriceCalculator.calculatePricePerMinute(parkingLot,car,unparkCarRequest)).thenReturn(10.0);
+        doNothing().when(carParkingInfoService).deleteCar(car);
+        parkingLotService.unparkingCar(parkingLotNumber,unparkCarRequest);
+        assertEquals(car.getTotalPrice(),10.0);
+        verify(carParkingInfoService, times(1)).deleteCar(car);
+        verify(parkingLotDao, times(1)).save(parkingLot);
     }
 
 }
