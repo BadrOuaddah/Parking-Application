@@ -57,7 +57,8 @@ public class ParkingLotService implements IParkingLotService {
         car.setTotalPrice(price);
         carParkingInfoService.deleteCar(car);
         parkingLotDao.save(parkingLot);
-        return carParkingInfoMapper.toCarParkingInfoDto(car);
+        CarParkingInfoDto carParkingInfoDto = carParkingInfoMapper.toCarParkingInfoDto(car);
+        return carParkingInfoDto;
     }
 
     public ParkingLot findParkingLotById(Long parkingLotId){

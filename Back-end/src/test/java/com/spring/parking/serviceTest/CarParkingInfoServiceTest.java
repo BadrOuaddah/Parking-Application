@@ -41,4 +41,12 @@ public class CarParkingInfoServiceTest {
         verify(carParkingInfoDao, times(1)).findById(vehicleRegistration);
         verify(carParkingInfoDao, times(1)).save(carParkingInfoUpdated);
     }
+
+    @Test
+    public void test(){
+        CarParkingInfo carParkingInfo = new CarParkingInfo();
+        when(carParkingInfoDao.save(carParkingInfo)).thenReturn(carParkingInfo);
+        CarParkingInfo result = carParkingInfoService.save(carParkingInfo);
+        assertNotNull(result);
+    }
 }

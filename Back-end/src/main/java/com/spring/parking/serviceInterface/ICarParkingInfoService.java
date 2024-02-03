@@ -8,5 +8,5 @@ public interface ICarParkingInfoService {
 
     void deleteCar(CarParkingInfo car);
 
-    void save(CarParkingInfo carParkingInfo);
+    CarParkingInfo save(CarParkingInfo carParkingInfo);
 }

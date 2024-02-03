@@ -41,7 +41,8 @@ public class CarParkingInfoService implements ICarParkingInfoService {
         carParkingInfoDao.delete(car);
     }
 
-    public void save(CarParkingInfo carParkingInfo){
+    public CarParkingInfo save(CarParkingInfo carParkingInfo){
         carParkingInfoDao.save(carParkingInfo);
+        return carParkingInfo;
     }
 }
